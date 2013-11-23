@@ -52,9 +52,19 @@ class Adafruit_NeoPixel {
     show(void),
     setPin(uint8_t p),
     setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b),
-    addPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b),
     setPixelColor(uint16_t n, uint32_t c),
     setBrightness(uint8_t);
+
+  /// The quickest way in the west to turn off all pixels!
+  void clearAllPixels();
+
+  /// Adds to the current values in the given pixel. Saturates at
+  /// maximum brightness or currently set brightness value
+  void addPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
+
+  /// Subtracts from the current values in the given pixel.
+  void remPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
+
   uint8_t
    *getPixels() const;
   uint16_t

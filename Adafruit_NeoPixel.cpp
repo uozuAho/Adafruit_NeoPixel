@@ -882,9 +882,40 @@ void Adafruit_NeoPixel::setPixelColor(
   }
 }
 
+// Set pixel color from 'packed' 32-bit RGB color:
+void Adafruit_NeoPixel::setPixelColor(uint16_t n, uint32_t c) {
+  if(n < numLEDs) {
+    uint8_t
+      r = (uint8_t)(c >> 16),
+      g = (uint8_t)(c >>  8),
+      b = (uint8_t)c;
+    if(brightness) { // See notes in setBrightness()
+      r = (r * brightness) >> 8;
+      g = (g * brightness) >> 8;
+      b = (b * brightness) >> 8;
+    }
+    uint8_t *p = &pixels[n * 3];
+#ifdef NEO_RGB
+    if((type & NEO_COLMASK) == NEO_GRB) {
+#endif
+      *p++ = g;
+      *p++ = r;
+#ifdef NEO_RGB
+    } else {
+      *p++ = r;
+      *p++ = g;
+    }
+#endif
+    *p = b;
+  }
+}
+
+void Adafruit_NeoPixel::clearAllPixels() {
+  memset(pixels, 0, numBytes);
+}
+
 // Saturating addition to LED value
-static inline uint8_t ledAdd(uint8_t a, uint8_t b, uint8_t brightness)
-{
+static inline uint8_t ledAdd(uint8_t a, uint8_t b, uint8_t brightness) {
   uint16_t new_val = a + b;
   if (new_val > 255)  new_val = 255;
   if (brightness)     new_val = min(new_val, brightness);
@@ -911,31 +942,29 @@ void Adafruit_NeoPixel::addPixelColor(
   }
 }
 
-// Set pixel color from 'packed' 32-bit RGB color:
-void Adafruit_NeoPixel::setPixelColor(uint16_t n, uint32_t c) {
+static inline uint8_t ledSubtract(uint8_t a, uint8_t b) {
+  int16_t new_val = (int16_t)a - b;
+  if (new_val < 0) new_val = 0;
+  return new_val;
+}
+
+void Adafruit_NeoPixel::remPixelColor(
+  uint16_t n, uint8_t r, uint8_t g, uint8_t b)
+{
   if(n < numLEDs) {
-    uint8_t
-      r = (uint8_t)(c >> 16),
-      g = (uint8_t)(c >>  8),
-      b = (uint8_t)c;
-    if(brightness) { // See notes in setBrightness()
-      r = (r * brightness) >> 8;
-      g = (g * brightness) >> 8;
-      b = (b * brightness) >> 8;
-    }
     uint8_t *p = &pixels[n * 3];
 #ifdef NEO_RGB
     if((type & NEO_COLMASK) == NEO_GRB) {
 #endif
-      *p++ = g;
-      *p++ = r;
+      *p = ledSubtract(*p, g); p++;
+      *p = ledSubtract(*p, r); p++;
 #ifdef NEO_RGB
     } else {
-      *p++ = r;
-      *p++ = g;
+      *p = ledSubtract(*p, r); p++;
+      *p = ledSubtract(*p, g); p++;
     }
 #endif
-    *p = b;
+    *p = ledSubtract(*p, b);
   }
 }
 
