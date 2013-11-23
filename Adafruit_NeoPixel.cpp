@@ -33,7 +33,8 @@
 
 #include "Adafruit_NeoPixel.h"
 
-Adafruit_NeoPixel::Adafruit_NeoPixel(uint16_t n, uint8_t p, uint8_t t) : numLEDs(n), numBytes(n * 3), pin(p), pixels(NULL)
+Adafruit_NeoPixel::Adafruit_NeoPixel(uint16_t n, uint8_t p, uint8_t t) :
+numLEDs(n), numBytes(n * 3), pin(p), pixels(NULL)
 #if defined(NEO_RGB) || defined(NEO_KHZ400)
   ,type(t)
 #endif
@@ -878,6 +879,35 @@ void Adafruit_NeoPixel::setPixelColor(
     }
 #endif
     *p = b;
+  }
+}
+
+// Saturating addition to LED value
+static inline uint8_t ledAdd(uint8_t a, uint8_t b, uint8_t brightness)
+{
+  uint16_t new_val = a + b;
+  if (new_val > 255)  new_val = 255;
+  if (brightness)     new_val = min(new_val, brightness);
+  return new_val;
+}
+
+// add to pixel color from separate R,G,B components:
+void Adafruit_NeoPixel::addPixelColor(
+ uint16_t n, uint8_t r, uint8_t g, uint8_t b) {
+  if(n < numLEDs) {
+    uint8_t *p = &pixels[n * 3];
+#ifdef NEO_RGB
+    if((type & NEO_COLMASK) == NEO_GRB) {
+#endif
+      *p = ledAdd(*p, g, brightness); p++;
+      *p = ledAdd(*p, r, brightness); p++;
+#ifdef NEO_RGB
+    } else {
+      *p = ledAdd(*p, r, brightness); p++;
+      *p = ledAdd(*p, g, brightness); p++;
+    }
+#endif
+    *p = ledAdd(*p, b, brightness);
   }
 }
 
