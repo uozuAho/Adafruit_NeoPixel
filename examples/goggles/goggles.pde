@@ -77,7 +77,7 @@ int16_t
   hue          =   0; // Initial hue around perimeter (0-1535)
 uint8_t
   iBrightness[16],    // Brightness map -- eye colors get scaled by these
-  brightness   = 220, // Global brightness (0-255)
+  brightness   =  50, // Global brightness (0-255)
   blinkFrames  =   5, // Speed of current blink
   blinkCounter =  30, // Countdown to end of next blink
   eyePos       = 192, // Current 'resting' eye (pupil) position
@@ -204,6 +204,7 @@ void loop() {
 
   // Merge iColor with iBrightness, issue to NeoPixels
   for(i=0; i<16; i++) {
+    PixelBuf* px = pixels.getPixelBuf();
     a = iBrightness[i] + 1;
     // First eye
     r = iColor[i][0];            // Initial background RGB color
@@ -214,7 +215,7 @@ void loop() {
       g = (g * a) >> 8;
       b = (b * a) >> 8;
     }
-    pixels.setPixelColor(((i + TOP_LED_FIRST) & 15),
+    px->setPixelColor(((i + TOP_LED_FIRST) & 15),
       pgm_read_byte(&gamma8[r]), // Gamma correct and set pixel
       pgm_read_byte(&gamma8[g]),
       pgm_read_byte(&gamma8[b]));
@@ -229,7 +230,7 @@ void loop() {
       g = (g * a) >> 8;
       b = (b * a) >> 8;
     }
-    pixels.setPixelColor(16 + ((i + TOP_LED_SECOND) & 15),
+    px->setPixelColor(16 + ((i + TOP_LED_SECOND) & 15),
       pgm_read_byte(&gamma8[r]),
       pgm_read_byte(&gamma8[g]),
       pgm_read_byte(&gamma8[b]));

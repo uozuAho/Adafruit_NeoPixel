@@ -26,6 +26,8 @@
  #include <pins_arduino.h>
 #endif
 
+#include "pixel_buf.h"
+
 // 'type' flags for LED pixels (third parameter to constructor):
 #define NEO_GRB     0x01 // Wired for GRB data order
 #define NEO_COLMASK 0x01
@@ -50,29 +52,16 @@ class Adafruit_NeoPixel {
   void
     begin(void),
     show(void),
-    setPin(uint8_t p),
-    setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b),
-    setPixelColor(uint16_t n, uint32_t c),
-    setBrightness(uint8_t);
+    setPin(uint8_t p);
 
-  /// The quickest way in the west to turn off all pixels!
-  void clearAllPixels();
-
-  /// Adds to the current values in the given pixel. Saturates at
-  /// maximum brightness or currently set brightness value
-  void addPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
-
-  /// Subtracts from the current values in the given pixel.
-  void remPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
-
-  uint8_t
-   *getPixels() const;
   uint16_t
     numPixels(void) const;
   static uint32_t
     Color(uint8_t r, uint8_t g, uint8_t b);
-  uint32_t
-    getPixelColor(uint16_t n) const;
+
+  PixelBuf*
+    getPixelBuf(void) const;
+
 
  private:
 
@@ -83,10 +72,11 @@ class Adafruit_NeoPixel {
   const uint8_t
     type;          // Pixel flags (400 vs 800 KHz, RGB vs GRB color)
 #endif
+  /// buffer to hold all current pixel values
+  PixelBuf* pixel_buf;
   uint8_t
     pin,           // Output pin number
-    brightness,
-   *pixels;        // Holds LED color values (3 bytes each)
+    brightness;
   uint32_t
     endTime;       // Latch timing reference
 #ifdef __AVR__

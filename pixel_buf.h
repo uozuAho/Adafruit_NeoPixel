@@ -27,6 +27,12 @@ public:
     /// The quickest way in the west to turn off all pixels!
     void clear();
 
+    /// Get a pointer to the internal pixel buffer. Needed
+    /// by NeoPixel class to set LED hardware quickly.
+    /// TODO: should this be private, with PixelBuf being a
+    /// friend of NeoPixel?
+    const uint8_t* getInternalBuf();
+
 
 private:
     /// LED value buffer. Always stored r,g,b...

@@ -1,5 +1,22 @@
 #include "pixel_buf.h"
 
+
+//-------------------------------------------------------------------
+// file-private functions
+
+// Saturating addition to LED value
+static inline uint8_t ledAdd(uint8_t a, uint8_t b, uint8_t max_brightness)
+{
+    uint16_t new_val = a + b;
+    if (new_val > 255)  new_val = 255;
+    if (max_brightness)     new_val = min(new_val, max_brightness);
+    return new_val;
+}
+
+
+//-------------------------------------------------------------------
+// class methods
+
 PixelBuf::PixelBuf(uint16_t num_pixels) :
     num_pixels(num_pixels),
     max_brightness(255)
@@ -30,14 +47,6 @@ void PixelBuf::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
         *p++ = g;
         *p = b;
     }
-}
-
-// Saturating addition to LED value
-static inline uint8_t ledAdd(uint8_t a, uint8_t b, uint8_t max_brightness) {
-    uint16_t new_val = a + b;
-    if (new_val > 255)  new_val = 255;
-    if (max_brightness)     new_val = min(new_val, max_brightness);
-    return new_val;
 }
 
 void PixelBuf::addPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
@@ -76,4 +85,9 @@ void PixelBuf::setMaxBrightness(uint8_t x)
 void PixelBuf::clear()
 {
     memset(pixels, 0, num_pixels * 3);
+}
+
+const uint8_t* PixelBuf::getInternalBuf()
+{
+    return pixels;
 }
