@@ -30,6 +30,9 @@ public:
     /// The quickest way in the west to turn off all pixels!
     void clear();
 
+    /// Turn of all pixels in the range [start, end]
+    void clearRange(uint16_t start, uint16_t end);
+
     /// Get a pointer to the internal pixel buffer. Needed
     /// by NeoPixel class to set LED hardware quickly.
     /// TODO: should this be private, with PixelBuf being a
