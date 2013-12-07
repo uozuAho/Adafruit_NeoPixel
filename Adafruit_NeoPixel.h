@@ -59,7 +59,7 @@ class Adafruit_NeoPixel {
   static uint32_t
     Color(uint8_t r, uint8_t g, uint8_t b);
 
-  PixelBuf*
+  PixelBuf&
     getPixelBuf(void) const;
 
 

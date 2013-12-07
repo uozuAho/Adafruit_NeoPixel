@@ -1,3 +1,6 @@
+#ifndef PIXEL_BUF_H
+#define PIXEL_BUF_H
+
 #if (ARDUINO >= 100)
     #include <Arduino.h>
 #else
@@ -44,3 +47,7 @@ private:
     /// Max allowable value for all LEDs
     uint8_t max_brightness;
 };
+
+#endif // PIXEL_BUF_H
+
+

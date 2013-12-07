@@ -865,6 +865,6 @@ uint16_t Adafruit_NeoPixel::numPixels(void) const {
   return numLEDs;
 }
 
-PixelBuf* Adafruit_NeoPixel::getPixelBuf(void) const {
-  return pixel_buf;
+PixelBuf& Adafruit_NeoPixel::getPixelBuf(void) const {
+  return *pixel_buf;
 }
