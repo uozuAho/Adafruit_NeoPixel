@@ -43,8 +43,8 @@ void PixelBuf::setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
             g = min(g, max_brightness);
             b = min(b, max_brightness);
         }
-        *p++ = r;
         *p++ = g;
+        *p++ = r;
         *p = b;
     }
 }
@@ -54,8 +54,8 @@ void PixelBuf::addPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
     if (n < num_pixels)
     {
         uint8_t *p = &pixels[n * 3];
-        *p = ledAdd(*p, r, max_brightness); p++;
         *p = ledAdd(*p, g, max_brightness); p++;
+        *p = ledAdd(*p, r, max_brightness); p++;
         *p = ledAdd(*p, b, max_brightness); p++;
     }
 }
@@ -71,8 +71,8 @@ void PixelBuf::remPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b)
     if (n < num_pixels)
     {
         uint8_t *p = &pixels[n * 3];
-        *p = ledSubtract(*p, r); p++;
         *p = ledSubtract(*p, g); p++;
+        *p = ledSubtract(*p, r); p++;
         *p = ledSubtract(*p, b); p++;
     }
 }

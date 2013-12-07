@@ -38,7 +38,7 @@ public:
 
 
 private:
-    /// LED value buffer. Always stored r,g,b...
+    /// LED value buffer. Stored in g,r,b order
     uint8_t* pixels;
 
     /// Number of RGB LEDs in strip
