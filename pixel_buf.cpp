@@ -87,13 +87,13 @@ void PixelBuf::clear()
     memset(pixels, 0, num_pixels * 3);
 }
 
-void PixelBuf::clearRange(uint16_t start, uint16_t end)
+void PixelBuf::clearRange(uint16_t start, uint16_t len)
 {
     if (start < num_pixels)
     {
-        if (end > num_pixels)
-            end = num_pixels;
-        memset(pixels, start, end * 3);
+        if ((start + len) > num_pixels)
+            len = num_pixels - start;
+        memset(&pixels[start * 3], 0, len * 3);
     }
 }
 

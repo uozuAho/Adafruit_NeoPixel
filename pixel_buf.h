@@ -40,8 +40,8 @@ public:
     /// The quickest way in the west to turn off all pixels!
     void clear();
 
-    /// Turn of all pixels in the range [start, end]
-    void clearRange(uint16_t start, uint16_t end);
+    /// Turn of all pixels in the range [start, start + num_pixels)
+    void clearRange(uint16_t start, uint16_t len);
 
     /// Add the values of the given buffer to this one.
     /// Buffers must have the same number of pixels
