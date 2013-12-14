@@ -43,6 +43,14 @@ public:
     /// Turn of all pixels in the range [start, end]
     void clearRange(uint16_t start, uint16_t end);
 
+    /// Add the values of the given buffer to this one.
+    /// Buffers must have the same number of pixels
+    void addBuf(PixelBuf&);
+
+    /// Subtract the values of the given buffer from this one.
+    /// Buffers must have the same number of pixels
+    void remBuf(PixelBuf&);
+
     /// Get a pointer to the internal pixel buffer. Needed
     /// by NeoPixel class to set LED hardware quickly.
     /// TODO: should this be private, with PixelBuf being a

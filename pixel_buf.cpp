@@ -97,6 +97,30 @@ void PixelBuf::clearRange(uint16_t start, uint16_t end)
     }
 }
 
+void PixelBuf::addBuf(PixelBuf& buf)
+{
+    if (buf.num_pixels == num_pixels)
+    {
+        const uint8_t* buf_ptr = buf.getInternalBuf();
+        int num_bytes = num_pixels * 3;
+        int i = 0;
+        for (; i < num_bytes; i++)
+            pixels[i] += buf_ptr[i];
+    }
+}
+
+void PixelBuf::remBuf(PixelBuf& buf)
+{
+    if (buf.num_pixels == num_pixels)
+    {
+        const uint8_t* buf_ptr = buf.getInternalBuf();
+        int num_bytes = num_pixels * 3;
+        int i = 0;
+        for (; i < num_bytes; i++)
+            pixels[i] -= buf_ptr[i];
+    }
+}
+
 const uint8_t* PixelBuf::getInternalBuf() const
 {
     return pixels;
