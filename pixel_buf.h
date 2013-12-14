@@ -11,8 +11,18 @@
 class PixelBuf
 {
 public:
+    // Constructor and destructor
     PixelBuf(uint16_t num_pixels);
     ~PixelBuf();
+
+    //---------------------------------------
+    // data
+
+    /// Number of RGB LEDs in strip
+    const uint16_t num_pixels;
+
+    //---------------------------------------
+    // methods
 
     /// Set the r, g and b LED values of the given pixel
     void setPixelColor(uint16_t n, uint8_t r, uint8_t g, uint8_t b);
@@ -37,15 +47,15 @@ public:
     /// by NeoPixel class to set LED hardware quickly.
     /// TODO: should this be private, with PixelBuf being a
     /// friend of NeoPixel?
-    const uint8_t* getInternalBuf();
+    const uint8_t* getInternalBuf() const;
 
 
 private:
+    //---------------------------------------
+    // data
+
     /// LED value buffer. Stored in g,r,b order
     uint8_t* pixels;
-
-    /// Number of RGB LEDs in strip
-    const uint16_t num_pixels;
 
     /// Max allowable value for all LEDs
     uint8_t max_brightness;

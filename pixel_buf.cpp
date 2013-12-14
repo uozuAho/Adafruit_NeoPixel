@@ -97,7 +97,7 @@ void PixelBuf::clearRange(uint16_t start, uint16_t end)
     }
 }
 
-const uint8_t* PixelBuf::getInternalBuf()
+const uint8_t* PixelBuf::getInternalBuf() const
 {
     return pixels;
 }
