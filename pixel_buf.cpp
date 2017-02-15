@@ -27,6 +27,13 @@ PixelBuf::PixelBuf(uint16_t num_pixels) :
     }
 }
 
+PixelBuf::PixelBuf(uint8_t* pixelmem, uint16_t num_pixels) :
+    num_pixels(num_pixels),
+    max_brightness(255)
+{
+    pixels = pixelmem;
+}
+
 PixelBuf::~PixelBuf()
 {
     if (pixels) free(pixels);

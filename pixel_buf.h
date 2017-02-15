@@ -11,8 +11,10 @@
 class PixelBuf
 {
 public:
-    // Constructor and destructor
+    // Create new buffer, allocating memory
     PixelBuf(uint16_t num_pixels);
+    // Wrap a buffer around existing pixel memory
+    PixelBuf(uint8_t* pixelmem, uint16_t num_pixels);
     ~PixelBuf();
 
     //---------------------------------------
